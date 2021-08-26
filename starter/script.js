@@ -10,10 +10,6 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-  order: function (starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
-
   openingHours: {
     thu: {
       open: 12,
@@ -28,21 +24,81 @@ const restaurant = {
       close: 24,
     },
   },
+
+  order: function (starterIndex, mainIndex) {
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+  },
+  // Lesson 104: Order delivery function
+  // Now we can do destructuring right away by passing in the following:
+
+  orderDelivery: function ({
+    starterIndex = 1,
+    mainIndex = 0,
+    time = '20:00',
+    address,
+  }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}.`
+    );
+  },
 };
 
-const arr = [2, 3, 4];
-const a = arr[0];
-const b = arr[1];
-const c = arr[2];
+restaurant.orderDelivery({
+  time: '22:30',
+  address: '215 Brick Street',
+  mainIndex: 2,
+  starterIndex: 2,
+});
 
-const [x, y, z] = arr;
-console.log(x, y, z);
-console.log(arr);
+// The rest will be filled in by defaults in the orderDelivery function
+restaurant.orderDelivery({
+  address: '21 Pipe Street',
+  starterIndex: 1,
+});
 
-let [main, , secondary] = restaurant.categories;
-console.log(main, secondary);
+// Lesson 104: Object Destructuring
+const { name, openingHours, categories } = restaurant;
+console.log(name, openingHours, categories);
 
-console.log(restaurant.order(2, 0));
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+console.log(restaurantName, hours, tags);
+
+// Default values
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(menu, starters);
+
+// Mutating variables while destructuring objects
+let a = 111;
+let b = 999;
+const obj = { a: 23, b: 7, c: 14 };
+
+({ a, b } = obj);
+console.log(a, b);
+
+// Nested objects: see notebook for explanation
+const {
+  fri: { open: o, close: c },
+} = openingHours;
+console.log(o, c);
+
+// Lesson 103: Array Destructuring
+// const arr = [2, 3, 4];
+// const a = arr[0];
+// const b = arr[1];
+// const c = arr[2];
+
+// const [x, y, z] = arr;
+// console.log(x, y, z);
+// console.log(arr);
+
+// let [main, , secondary] = restaurant.categories;
+// console.log(main, secondary);
+
+// console.log(restaurant.order(2, 0));
 
 // Switching variables / Without using destructuring
 
@@ -53,25 +109,25 @@ console.log(restaurant.order(2, 0));
 // console.log(main, secondary);
 
 // Now using destructuring
-[main, secondary] = [secondary, main];
-console.log(main, secondary);
+// [main, secondary] = [secondary, main];
+// console.log(main, secondary);
 
 // Receive 2 return values from a function
-const [starter, mainCourse] = restaurant.order(2, 0);
-console.log(starter, mainCourse);
+// const [starter, mainCourse] = restaurant.order(2, 0);
+// console.log(starter, mainCourse);
 
 // Nested array destructuring
-const nested = [2, 4, [5, 6]];
+// const nested = [2, 4, [5, 6]];
 // const [i, , j] = nested;
 // console.log(i, j);
 
 // Destructuring inside destructuring
-const [i, , [j, k]] = nested;
-console.log(i, j, k);
+// const [i, , [j, k]] = nested;
+// console.log(i, j, k);
 
 // Default values
-const [p = 1, q = 1, r = 1] = [8, 9];
-console.log(p, q, r); // r will log as undefined if we don't set a default value of something
+// const [p = 1, q = 1, r = 1] = [8, 9];
+// console.log(p, q, r); // r will log as undefined if we don't set a default value of something
 
 // Data needed for a later exercise
 const flights =
